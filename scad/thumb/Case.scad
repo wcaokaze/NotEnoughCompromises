@@ -23,6 +23,18 @@ thumb_case_size = [
    case_thickness
 ];
 
+thumb_case_inner_space_position = [
+   case_material_min_thickness,
+   case_material_min_thickness,
+   0
+];
+
+thumb_case_inner_space_size = [
+   thumb_case_size.x - case_material_min_thickness * 2,
+   thumb_case_size.y - case_material_min_thickness * 2,
+   thumb_case_size.z - case_material_min_thickness
+];
+
 module thumb_case(printer_friendly_position = false) {
    if (printer_friendly_position) {
       translate([0, thumb_case_size.y, thumb_case_size.z]) {
@@ -39,16 +51,8 @@ module thumb_case_impl() {
    difference() {
       cube(thumb_case_size);
 
-      translate([
-         case_material_min_thickness,
-         case_material_min_thickness,
-         0
-      ]) {
-         cube([
-            thumb_case_size.x - case_material_min_thickness * 2,
-            thumb_case_size.y - case_material_min_thickness * 2,
-            thumb_case_size.z - case_material_min_thickness
-         ]);
+      translate(thumb_case_inner_space_position) {
+         cube(thumb_case_inner_space_size);
       }
 
       for (x = [0 : thumb_key_count.x], y = [0 : thumb_key_count.y]) {
