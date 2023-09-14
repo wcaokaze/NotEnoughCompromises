@@ -23,7 +23,19 @@ thumb_case_size = [
    case_thickness
 ];
 
-module thumb_case() {
+module thumb_case(printer_friendly_position = false) {
+   if (printer_friendly_position) {
+      translate([0, thumb_case_size.y, thumb_case_size.z]) {
+         rotate(180, [1, 0, 0]) {
+            thumb_case_impl();
+         }
+      }
+   } else {
+      thumb_case_impl();
+   }
+}
+
+module thumb_case_impl() {
    difference() {
       cube(thumb_case_size);
 
