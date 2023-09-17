@@ -57,13 +57,13 @@ module thumb_case_impl() {
 
       for (x = [0 : thumb_key_count.x], y = [0 : thumb_key_count.y]) {
          translate([
-            thumb_case_leftfront_key_placement_position.x + key_pitch.x * x - key_switch_top_side_size.x / 2,
-            thumb_case_leftfront_key_placement_position.y + key_pitch.y * y - key_switch_top_side_size.y / 2,
+            thumb_case_leftfront_key_placement_position.x + key_pitch.x * x - key_switch_top_housing_size.x / 2,
+            thumb_case_leftfront_key_placement_position.y + key_pitch.y * y - key_switch_top_housing_size.y / 2,
             0
          ]) {
             cube([
-               key_switch_top_side_size.x,
-               key_switch_top_side_size.y,
+               key_switch_top_housing_size.x,
+               key_switch_top_housing_size.y,
                thumb_case_size.z
             ]);
          }

@@ -1,6 +1,8 @@
 
 include <KeySwitch.scad>
 
+key_pitch = [16.5, 16.5];
+
 alphanumeric_key_count = [6, 4];
 thumb_key_count = [4, 1];
 

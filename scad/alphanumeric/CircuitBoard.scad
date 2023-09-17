@@ -7,7 +7,7 @@ alphanumeric_circuit_board_position = [
    alphanumeric_case_inner_space_position.x + printer_min_margin,
    alphanumeric_case_inner_space_position.y + printer_min_margin + 2.0,
    alphanumeric_case_inner_space_position.z + alphanumeric_case_inner_space_size.z
-      - key_switch_hock_size.z - key_switch_bottom_side_size.z
+      - key_switch_hock_size.z - key_switch_bottom_housing_size.z
       - circuit_board_thickness
 ];
 

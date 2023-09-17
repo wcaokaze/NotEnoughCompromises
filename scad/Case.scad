@@ -4,4 +4,4 @@ include <KeySwitch.scad>
 case_material_min_thickness = 1.0;
 
 case_thickness = case_material_min_thickness + key_switch_hock_size.z
-   + key_switch_bottom_side_size.z - 0.5;
+   + key_switch_bottom_housing_size.z - 0.5;

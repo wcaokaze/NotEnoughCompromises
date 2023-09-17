@@ -41,13 +41,13 @@ module alphanumeric_rubber_feet() {
             }
 
             translate([
-               -key_switch_bottom_side_size.x / 2 - printer_min_margin,
-               -key_switch_bottom_side_size.y / 2 - printer_min_margin,
+               -key_switch_bottom_housing_size.x / 2 - printer_min_margin,
+               -key_switch_bottom_housing_size.y / 2 - printer_min_margin,
                0
             ]) {
                cube([
-                  key_switch_bottom_side_size.x + printer_min_margin * 2,
-                  key_switch_bottom_side_size.y + printer_min_margin * 2,
+                  key_switch_bottom_housing_size.x + printer_min_margin * 2,
+                  key_switch_bottom_housing_size.y + printer_min_margin * 2,
                   alphanumeric_rubber_feet_size.z
                ]);
             }
