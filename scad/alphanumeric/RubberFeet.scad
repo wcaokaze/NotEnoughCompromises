@@ -24,8 +24,8 @@ module alphanumeric_rubber_feet() {
 
       for (x = [0 : alphanumeric_key_count.x], y = [0 : alphanumeric_key_count.y]) {
          translate([
-            alphanumeric_case_placement_position.x + key_pitch.x * x,
-            alphanumeric_case_placement_position.y + key_pitch.y * y,
+            alphanumeric_case_leftfront_key_placement_position.x + key_pitch.x * x,
+            alphanumeric_case_leftfront_key_placement_position.y + key_pitch.y * y,
             0
          ]) {
             translate([
