@@ -22,16 +22,15 @@ module alphanumeric_rubber_feet() {
          cube(alphanumeric_rubber_feet_size);
       }
 
-      for (x = [0 : alphanumeric_key_count.x], y = [0 : alphanumeric_key_count.y]) {
-         translate([
-            alphanumeric_case_leftfront_key_placement_position.x + key_pitch.x * x,
-            alphanumeric_case_leftfront_key_placement_position.y + key_pitch.y * y,
-            0
-         ]) {
+      for (x = [0 : alphanumeric_key_count.x - 1],
+           y = [0 : alphanumeric_key_count.y - 1])
+      {
+         translate(alphanumeric_case_key_position(x, y)) {
             translate([
-               -key_switch_hock_size.x / 2 - printer_min_margin,
-               -key_switch_hock_size.y / 2 - printer_min_margin,
-               alphanumeric_case_inner_space_size.z - printer_min_margin - key_switch_hock_size.z
+               key_switch_hock_position.x - printer_min_margin,
+               key_switch_hock_position.y - printer_min_margin,
+               alphanumeric_case_inner_space_size.z - printer_min_margin
+                  - key_switch_hock_size.z
             ]) {
                cube([
                   key_switch_hock_size.x + printer_min_margin * 2,
@@ -41,8 +40,8 @@ module alphanumeric_rubber_feet() {
             }
 
             translate([
-               -key_switch_bottom_housing_size.x / 2 - printer_min_margin,
-               -key_switch_bottom_housing_size.y / 2 - printer_min_margin,
+               key_switch_bottom_housing_position.x - printer_min_margin,
+               key_switch_bottom_housing_position.y - printer_min_margin,
                0
             ]) {
                cube([

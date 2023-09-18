@@ -3,23 +3,32 @@ include <../Case.scad>
 include <../Keyboard.scad>
 include <../PrinterSpec.scad>
 
-// 一番左手前のキーの*中心*の座標
-thumb_case_leftfront_key_placement_position = [
+function thumb_case_key_position(x, y) = [
    max(
-      key_pitch.x / 2,
-      case_material_min_thickness + printer_min_margin + key_switch_hock_size.x / 2
-   ),
+      key_pitch.x - key_switch_housing_size.x,
+      case_material_min_thickness + printer_min_margin
+   ) + key_pitch.x * x,
    max(
-      key_pitch.y / 2,
-      case_material_min_thickness + printer_min_margin + key_switch_hock_size.y / 2
-   )
+      key_pitch.y - key_switch_housing_size.y,
+      case_material_min_thickness + printer_min_margin
+   ) + key_pitch.y * y
 ];
 
 thumb_case_size = [
-   (thumb_case_leftfront_key_placement_position.x - key_pitch.x / 2) * 2
-      + key_pitch.x * thumb_key_count.x,
-   (thumb_case_leftfront_key_placement_position.y - key_pitch.y / 2) * 2
-      + key_pitch.y * thumb_key_count.y,
+   thumb_case_key_position(
+      thumb_key_count.x - 1, thumb_key_count.y - 1
+   ).x + max(
+      key_pitch.x,
+      key_switch_housing_size.x + printer_min_margin
+         + case_material_min_thickness
+   ),
+   thumb_case_key_position(
+      thumb_key_count.x - 1, thumb_key_count.y - 1
+   ).y + max(
+      key_pitch.y,
+      key_switch_housing_size.y + printer_min_margin
+         + case_material_min_thickness
+   ),
    case_thickness
 ];
 
@@ -55,10 +64,12 @@ module thumb_case_impl() {
          cube(thumb_case_inner_space_size);
       }
 
-      for (x = [0 : thumb_key_count.x], y = [0 : thumb_key_count.y]) {
+      for (x = [0 : thumb_key_count.x - 1],
+           y = [0 : thumb_key_count.y - 1])
+      {
          translate([
-            thumb_case_leftfront_key_placement_position.x + key_pitch.x * x - key_switch_top_housing_size.x / 2,
-            thumb_case_leftfront_key_placement_position.y + key_pitch.y * y - key_switch_top_housing_size.y / 2,
+            thumb_case_key_position(x, y).x + key_switch_top_housing_position.x,
+            thumb_case_key_position(x, y).y + key_switch_top_housing_position.y,
             0
          ]) {
             cube([

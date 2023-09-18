@@ -3,23 +3,32 @@ include <../Case.scad>
 include <../Keyboard.scad>
 include <../PrinterSpec.scad>
 
-// 一番左手前のキーの*中心*の座標
-alphanumeric_case_leftfront_key_placement_position = [
+function alphanumeric_case_key_position(x, y) = [
    max(
-      key_pitch.x / 2,
-      case_material_min_thickness + printer_min_margin + key_switch_hock_size.x / 2
-   ),
+      key_pitch.x - key_switch_housing_size.x,
+      case_material_min_thickness + printer_min_margin
+   ) + key_pitch.x * x,
    max(
-      key_pitch.y / 2,
-      case_material_min_thickness + printer_min_margin + key_switch_hock_size.y / 2
-   )
+      key_pitch.y - key_switch_housing_size.y,
+      case_material_min_thickness + printer_min_margin
+   ) + key_pitch.y * y
 ];
 
 alphanumeric_case_size = [
-   (alphanumeric_case_leftfront_key_placement_position.x - key_pitch.x / 2) * 2
-      + key_pitch.x * alphanumeric_key_count.x,
-   (alphanumeric_case_leftfront_key_placement_position.y - key_pitch.y / 2) * 2
-      + key_pitch.y * alphanumeric_key_count.y,
+   alphanumeric_case_key_position(
+      alphanumeric_key_count.x - 1, alphanumeric_key_count.y - 1
+   ).x + max(
+      key_pitch.x,
+      key_switch_housing_size.x + printer_min_margin
+         + case_material_min_thickness
+   ),
+   alphanumeric_case_key_position(
+      alphanumeric_key_count.x - 1, alphanumeric_key_count.y - 1
+   ).y + max(
+      key_pitch.y,
+      key_switch_housing_size.y + printer_min_margin
+         + case_material_min_thickness
+   ),
    case_thickness
 ];
 
@@ -55,10 +64,12 @@ module alphanumeric_case_impl() {
          cube(alphanumeric_case_inner_space_size);
       }
 
-      for (x = [0 : alphanumeric_key_count.x], y = [0 : alphanumeric_key_count.y]) {
+      for (x = [0 : alphanumeric_key_count.x - 1],
+           y = [0 : alphanumeric_key_count.y - 1])
+      {
          translate([
-            alphanumeric_case_leftfront_key_placement_position.x + key_pitch.x * x - key_switch_top_housing_size.x / 2,
-            alphanumeric_case_leftfront_key_placement_position.y + key_pitch.y * y - key_switch_top_housing_size.y / 2,
+            alphanumeric_case_key_position(x, y).x + key_switch_top_housing_position.x,
+            alphanumeric_case_key_position(x, y).y + key_switch_top_housing_position.y,
             0
          ]) {
             cube([
