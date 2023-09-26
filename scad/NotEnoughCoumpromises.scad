@@ -1,4 +1,5 @@
 
+include <ClearMarginBoard.scad>
 include <Keyboard.scad>
 include <alphanumeric/Case.scad>
 include <alphanumeric/CircuitBoard.scad>
@@ -13,4 +14,8 @@ translate(alphanumeric_placement_position) {
    alphanumeric_case();
    alphanumeric_circuit_board();
    alphanumeric_rubber_feet();
+}
+
+translate(clear_margin_board_position) {
+   %clear_margin_board();
 }
