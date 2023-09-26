@@ -4,32 +4,32 @@ include <../PrinterSpec.scad>
 include <../RubberFeet.scad>
 include <Case.scad>
 
-alphanumeric_rubber_feet_base_size = [
-   alphanumeric_case_inner_space_size.x - 2.4,
-   alphanumeric_case_inner_space_size.y - 2.4,
+thumb_rubber_feet_base_size = [
+   thumb_case_inner_space_size.x - 2.4,
+   thumb_case_inner_space_size.y - 2.4,
    rubber_feet_base_thickness
 ];
 
-alphanumeric_rubber_feet_base_position = [
-   alphanumeric_case_inner_space_position.x + 1.2,
-   alphanumeric_case_inner_space_position.y + 1.2,
-   alphanumeric_case_inner_space_size.z - alphanumeric_rubber_feet_base_size.z
+thumb_rubber_feet_base_position = [
+   thumb_case_inner_space_position.x + 1.2,
+   thumb_case_inner_space_position.y + 1.2,
+   thumb_case_inner_space_size.z - thumb_rubber_feet_base_size.z
 ];
 
-module alphanumeric_rubber_feet() {
+module thumb_rubber_feet() {
    difference() {
-      translate(alphanumeric_rubber_feet_base_position) {
-         cube(alphanumeric_rubber_feet_base_size);
+      translate(thumb_rubber_feet_base_position) {
+         cube(thumb_rubber_feet_base_size);
       }
 
-      for (x = [0 : alphanumeric_key_count.x - 1],
-           y = [0 : alphanumeric_key_count.y - 1])
+      for (x = [0 : thumb_key_count.x - 1],
+           y = [0 : thumb_key_count.y - 1])
       {
-         translate(alphanumeric_case_key_position(x, y)) {
+         translate(thumb_case_key_position(x, y)) {
             translate([
                key_switch_hock_position.x - printer_min_margin,
                key_switch_hock_position.y - printer_min_margin,
-               alphanumeric_case_inner_space_size.z - printer_min_margin
+               thumb_case_inner_space_size.z - printer_min_margin
                   - key_switch_hock_size.z
             ]) {
                cube([

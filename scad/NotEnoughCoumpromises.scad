@@ -6,9 +6,11 @@ include <alphanumeric/CircuitBoard.scad>
 include <alphanumeric/RubberFeet.scad>
 include <thumb/Case.scad>
 include <thumb/CircuitBoard.scad>
+include <thumb/RubberFeet.scad>
 
 thumb_case();
 thumb_circuit_board();
+thumb_rubber_feet();
 
 translate(alphanumeric_placement_position) {
    alphanumeric_case();
