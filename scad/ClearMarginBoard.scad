@@ -37,9 +37,11 @@ module clear_margin_board() {
       }
       clear_margin_board_alphanumeric_case_saucer();
       clear_margin_board_alphanumeric_rubber_feet_saucer();
+      clear_margin_board_alphanumeric_circuit_saucer();
       clear_margin_board_alphanumeric_key_switch_hole();
       clear_margin_board_thumb_case_saucer();
       clear_margin_board_thumb_rubber_feet_saucer();
+      clear_margin_board_thumb_circuit_saucer();
       clear_margin_board_thumb_key_switch_hole();
    }
 }
@@ -65,6 +67,26 @@ module clear_margin_board_alphanumeric_rubber_feet_saucer() {
       alphanumeric_rubber_feet_base_position.z
    ]) {
       cube(alphanumeric_case_size);
+   }
+}
+
+module clear_margin_board_alphanumeric_circuit_saucer() {
+   translate([
+      alphanumeric_placement_position.x,
+      alphanumeric_placement_position.y,
+      clear_margin_board_position.z - printer_min_margin
+   ]) {
+      minkowski() {
+         cube([
+            0.01,
+            0.01,
+            alphanumeric_circuit_board_position.z
+               + alphanumeric_circuit_board_size.z
+               - clear_margin_board_position.z + printer_min_margin * 2
+         ]);
+
+         alphanumeric_circuit_board(offset = printer_min_margin);
+      }
    }
 }
 
@@ -136,6 +158,25 @@ module clear_margin_board_thumb_key_switch_hole() {
                   + [printer_min_margin * 2, printer_min_margin * 2 ,printer_min_margin * 2]);
             }
          }
+      }
+   }
+}
+
+module clear_margin_board_thumb_circuit_saucer() {
+   translate([
+      thumb_placement_position.x,
+      thumb_placement_position.y,
+      clear_margin_board_position.z - printer_min_margin
+   ]) {
+      minkowski() {
+         cube([
+            0.01,
+            0.01,
+            thumb_circuit_board_position.z + thumb_circuit_board_size.z
+               - clear_margin_board_position.z + printer_min_margin * 2
+         ]);
+
+         thumb_circuit_board(offset = printer_min_margin);
       }
    }
 }
