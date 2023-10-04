@@ -11,26 +11,27 @@ function alphanumeric_case_key_position(x, y) = [
    max(
       key_pitch.y - key_switch_housing_size.y,
       case_material_min_thickness + printer_min_margin
-   ) + key_pitch.y * y
+   ) + key_pitch.y * y,
+   0
 ];
 
-alphanumeric_case_size = [
-   alphanumeric_case_key_position(
+alphanumeric_case_size
+   = alphanumeric_case_key_position(
       alphanumeric_key_count.x - 1, alphanumeric_key_count.y - 1
-   ).x + max(
-      key_pitch.x,
-      key_switch_housing_size.x + printer_min_margin
-         + case_material_min_thickness
-   ),
-   alphanumeric_case_key_position(
-      alphanumeric_key_count.x - 1, alphanumeric_key_count.y - 1
-   ).y + max(
-      key_pitch.y,
-      key_switch_housing_size.y + printer_min_margin
-         + case_material_min_thickness
-   ),
-   case_thickness
-];
+   )
+   + [
+      max(
+         key_pitch.x,
+         key_switch_housing_size.x + printer_min_margin
+            + case_material_min_thickness
+      ),
+      max(
+         key_pitch.y,
+         key_switch_housing_size.y + printer_min_margin
+            + case_material_min_thickness
+      ),
+      case_thickness
+   ];
 
 alphanumeric_case_inner_space_position = [
    case_material_min_thickness,
@@ -38,10 +39,10 @@ alphanumeric_case_inner_space_position = [
    0
 ];
 
-alphanumeric_case_inner_space_size = [
-   alphanumeric_case_size.x - case_material_min_thickness * 2,
-   alphanumeric_case_size.y - case_material_min_thickness * 2,
-   alphanumeric_case_size.z - case_material_min_thickness
+alphanumeric_case_inner_space_size = alphanumeric_case_size - [
+   case_material_min_thickness * 2,
+   case_material_min_thickness * 2,
+   case_material_min_thickness
 ];
 
 module alphanumeric_case(printer_friendly_position = false) {
