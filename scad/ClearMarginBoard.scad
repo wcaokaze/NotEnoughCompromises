@@ -33,20 +33,113 @@ clear_margin_board_size = [
 module clear_margin_board() {
    difference() {
       union() {
-         translate(clear_margin_board_position) {
-            cube(clear_margin_board_size);
+         difference() {
+            translate(clear_margin_board_position) {
+               cube(clear_margin_board_size);
+            }
+
+            translate(
+               alphanumeric_placement_position + [
+                  printer_min_margin,
+                  printer_min_margin,
+                  clear_margin_board_position.z - printer_min_margin
+               ]
+            ) {
+               cube([
+                  alphanumeric_case_inner_space_position.x
+                     + alphanumeric_case_inner_space_size.x + printer_min_margin * 2,
+                  alphanumeric_case_inner_space_position.y
+                     + alphanumeric_case_inner_space_size.y + printer_min_margin * 2,
+                  clear_margin_board_size.z + printer_min_margin * 2
+               ]);
+            }
+
+            translate(
+               thumb_placement_position + [
+                  -printer_min_margin,
+                  -printer_min_margin,
+                  clear_margin_board_position.z - printer_min_margin
+               ]
+            ) {
+               cube([
+                  thumb_case_inner_space_position.x
+                        + thumb_case_inner_space_size.x + printer_min_margin,
+                  thumb_case_inner_space_position.y
+                        + thumb_case_inner_space_size.y + printer_min_margin,
+                  clear_margin_board_size.z + printer_min_margin * 2
+               ]);
+            }
          }
-         translate(alphanumeric_placement_position
-            + alphanumeric_case_inner_space_position)
-         {
-            cube(alphanumeric_case_inner_space_size);
+
+         alphanumeric_left_front_point = [
+            alphanumeric_placement_position.x,
+            alphanumeric_placement_position.y,
+            clear_margin_board_position.z
+         ];
+         alphanumeric_right_back_point = [
+            min(
+               alphanumeric_placement_position.x
+                  + alphanumeric_circuit_board_position.x
+                  + alphanumeric_circuit_board_size.x,
+               alphanumeric_placement_position.x
+                  + alphanumeric_case_key_position(
+                     alphanumeric_key_count.x - 1, alphanumeric_key_count.y - 1
+                  ).x
+                  + key_switch_bottom_housing_position.x
+                  + key_switch_bottom_housing_size.x
+            ),
+            min(
+               alphanumeric_placement_position.y
+                  + alphanumeric_circuit_board_position.y
+                  + alphanumeric_circuit_board_size.y,
+               alphanumeric_placement_position.y
+                  + alphanumeric_case_key_position(
+                     alphanumeric_key_count.x - 1, alphanumeric_key_count.y - 1
+                  ).y
+                  + key_switch_bottom_housing_position.y
+                  + key_switch_bottom_housing_size.y
+            ),
+            alphanumeric_placement_position.z
+               + alphanumeric_case_inner_space_position.z
+               + alphanumeric_case_inner_space_size.z
+         ];
+
+         translate(alphanumeric_left_front_point) {
+            cube(alphanumeric_right_back_point - alphanumeric_left_front_point
+               - [printer_min_margin, printer_min_margin, printer_min_margin]);
          }
-         translate(thumb_placement_position
-            + thumb_case_inner_space_position)
-         {
-            cube(thumb_case_inner_space_size);
+
+         thumb_left_front_point = [
+            max(
+               thumb_placement_position.x + thumb_circuit_board_position.x,
+               thumb_placement_position.x
+                  + thumb_case_key_position(0, 0).x
+                  + key_switch_bottom_housing_position.x
+            ),
+            max(
+               thumb_placement_position.y + thumb_circuit_board_position.y,
+               thumb_placement_position.y
+                  + thumb_case_key_position(0, 0).y
+                  + key_switch_bottom_housing_position.y
+            ),
+            clear_margin_board_position.z
+         ];
+         thumb_right_back_point = [
+            thumb_placement_position.x + thumb_case_size.x,
+            thumb_placement_position.y + thumb_case_size.y,
+            thumb_placement_position.z
+               + thumb_case_inner_space_position.z
+               + thumb_case_inner_space_size.z
+         ];
+
+         translate(thumb_left_front_point
+            + [printer_min_margin, printer_min_margin, printer_min_margin]
+         ) {
+            cube(thumb_right_back_point - thumb_left_front_point
+               - [printer_min_margin, printer_min_margin, printer_min_margin]);
          }
       }
+
       clear_margin_board_alphanumeric_case_saucer();
       //clear_margin_board_alphanumeric_rubber_feet_saucer();
       clear_margin_board_alphanumeric_circuit_saucer();
@@ -66,7 +159,8 @@ module clear_margin_board_alphanumeric_case_saucer() {
          translate(alphanumeric_case_inner_space_position
             + [printer_min_margin, printer_min_margin, -printer_min_margin])
          {
-            cube(alphanumeric_case_inner_space_size + [0, 0, printer_min_margin]);
+            cube(alphanumeric_case_inner_space_size
+               + [-printer_min_margin * 2, -printer_min_margin * 2, printer_min_margin]);
          }
       }
    }
@@ -107,25 +201,29 @@ module clear_margin_board_alphanumeric_key_switch_hole() {
       + [0, 0, alphanumeric_circuit_board_position.z + alphanumeric_circuit_board_size.z])
    {
       difference() {
-         left_front_position = alphanumeric_case_key_position(0, 0);
-         right_back_position = alphanumeric_case_key_position(
-            alphanumeric_key_count.x - 1, alphanumeric_key_count.y - 1);
+         left_front_point
+            = alphanumeric_case_key_position(0, 0)
+            + key_switch_hock_position;
 
-         translate([0, 0, key_switch_hock_position.z - printer_min_margin]) {
-            cube(alphanumeric_case_size);
+         right_back_point
+            = alphanumeric_case_key_position(
+               alphanumeric_key_count.x - 1, alphanumeric_key_count.y - 1
+            )
+            + key_switch_hock_position
+            + key_switch_hock_size;
+
+         z = key_switch_hock_position.z - printer_min_margin;
+         h = key_switch_hock_size.z + printer_min_margin;
+
+         translate([0, 0, z]) {
+            cube([alphanumeric_case_size.x, alphanumeric_case_size.y, h]);
          }
 
-         translate(left_front_position + key_switch_hock_position
-            + [printer_min_margin, printer_min_margin, -printer_min_margin * 2])
-         {
+         translate([left_front_point.x, left_front_point.y, z - printer_min_margin]) {
             cube([
-               (right_back_position.x + key_switch_hock_position.x + key_switch_hock_size.x)
-                  - (left_front_position.x + key_switch_hock_position.x)
-                  - printer_min_margin * 2,
-               (right_back_position.y + key_switch_hock_position.y + key_switch_hock_size.y)
-                  - (left_front_position.y + key_switch_hock_position.y)
-                  - printer_min_margin * 2,
-               alphanumeric_case_size.z + printer_min_margin * 3
+               right_back_point.x - left_front_point.x - printer_min_margin * 2,
+               right_back_point.y - left_front_point.y - printer_min_margin * 2,
+               h + printer_min_margin * 2
             ]);
          }
       }
@@ -167,7 +265,8 @@ module clear_margin_board_thumb_case_saucer() {
          translate(thumb_case_inner_space_position
             + [printer_min_margin, printer_min_margin, -printer_min_margin])
          {
-            cube(thumb_case_inner_space_size + [0, 0, printer_min_margin]);
+            cube(thumb_case_inner_space_size
+               + [-printer_min_margin * 2, -printer_min_margin * 2, printer_min_margin]);
          }
       }
    }
@@ -188,25 +287,29 @@ module clear_margin_board_thumb_key_switch_hole() {
       + [0, 0, thumb_circuit_board_position.z + thumb_circuit_board_size.z])
    {
       difference() {
-         left_front_position = thumb_case_key_position(0, 0);
-         right_back_position = thumb_case_key_position(
-            thumb_key_count.x - 1, thumb_key_count.y - 1);
+         left_front_point
+            = thumb_case_key_position(0, 0)
+            + key_switch_hock_position;
 
-         translate([0, 0, key_switch_hock_position.z - printer_min_margin]) {
-            cube(thumb_case_size);
+         right_back_point
+            = thumb_case_key_position(
+               thumb_key_count.x - 1, thumb_key_count.y - 1
+            )
+            + key_switch_hock_position
+            + key_switch_hock_size;
+
+         z = key_switch_hock_position.z - printer_min_margin;
+         h = key_switch_hock_size.z + printer_min_margin;
+
+         translate([0, 0, z]) {
+            cube([thumb_case_size.x, thumb_case_size.y, h]);
          }
 
-         translate(left_front_position + key_switch_hock_position
-            + [printer_min_margin, printer_min_margin, -printer_min_margin * 2])
-         {
+         translate([left_front_point.x, left_front_point.y, z - printer_min_margin]) {
             cube([
-               (right_back_position.x + key_switch_hock_position.x + key_switch_hock_size.x)
-                  - (left_front_position.x + key_switch_hock_position.x)
-                  - printer_min_margin * 2,
-               (right_back_position.y + key_switch_hock_position.y + key_switch_hock_size.y)
-                  - (left_front_position.y + key_switch_hock_position.y)
-                  - printer_min_margin * 2,
-               thumb_case_size.z + printer_min_margin * 3
+               right_back_point.x - left_front_point.x - printer_min_margin * 2,
+               right_back_point.y - left_front_point.y - printer_min_margin * 2,
+               h + printer_min_margin * 2
             ]);
          }
       }
