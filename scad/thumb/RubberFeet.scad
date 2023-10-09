@@ -47,7 +47,7 @@ module thumb_rubber_feet() {
                cube([
                   key_switch_bottom_housing_size.x + printer_min_margin * 2,
                   key_switch_bottom_housing_size.y + printer_min_margin * 2,
-                  alphanumeric_case_inner_space_size.z + printer_min_margin * 2
+                  thumb_case_inner_space_size.z + printer_min_margin * 2
                ]);
             }
          }

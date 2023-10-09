@@ -3,8 +3,10 @@ include <Case.scad>
 include <Keyboard.scad>
 include <RubberFeet.scad>
 include <alphanumeric/Case.scad>
+include <alphanumeric/CircuitBoard.scad>
 include <alphanumeric/RubberFeet.scad>
 include <thumb/Case.scad>
+include <thumb/CircuitBoard.scad>
 include <thumb/RubberFeet.scad>
 
 // alphanumeric_case, thumb_caseが食い込む部分の厚さ
