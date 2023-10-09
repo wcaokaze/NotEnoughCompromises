@@ -13,7 +13,7 @@ include <thumb/RubberFeet.scad>
 clear_margin_board_top_side_thickness = max(case_thickness - 2.0, 0.0);
 
 // alphanumeric_case, thumb_caseの下側の厚さ
-clear_margin_board_bottom_side_thickness = 2.0;
+clear_margin_board_bottom_side_thickness = 1.0;
 
 // 周囲にalphanumeric_case, thumb_caseをはみ出させる大きさ
 clear_margin_board_padding = 1.0;
@@ -76,7 +76,10 @@ module clear_margin_board() {
          alphanumeric_left_front_point = [
             alphanumeric_placement_position.x,
             alphanumeric_placement_position.y,
-            clear_margin_board_position.z
+            min(
+               clear_margin_board_position.z,
+               alphanumeric_circuit_board_position.z - 0.5
+            )
          ];
          alphanumeric_right_back_point = [
             min(
@@ -124,7 +127,10 @@ module clear_margin_board() {
                   + thumb_case_key_position(0, 0).y
                   + key_switch_bottom_housing_position.y
             ),
-            clear_margin_board_position.z
+            min(
+               clear_margin_board_position.z,
+               thumb_circuit_board_position.z - 0.5
+            )
          ];
          thumb_right_back_point = [
             thumb_placement_position.x + thumb_case_size.x,
@@ -179,21 +185,31 @@ module clear_margin_board_alphanumeric_rubber_feet_saucer() {
 }
 
 module clear_margin_board_alphanumeric_circuit_saucer() {
-   translate([
-      alphanumeric_placement_position.x,
-      alphanumeric_placement_position.y,
-      clear_margin_board_position.z - printer_min_margin
-   ]) {
+   if (clear_margin_board_position.z > 0) {
       minkowski() {
          cube([
             0.01,
             0.01,
-            alphanumeric_circuit_board_position.z
-               + alphanumeric_circuit_board_size.z
-               - clear_margin_board_position.z + printer_min_margin * 2
+            clear_margin_board_position.z + printer_min_margin * 2
          ]);
 
          alphanumeric_circuit_board(offset = printer_min_margin);
+      }
+   } else {
+      translate([
+         alphanumeric_placement_position.x,
+         alphanumeric_placement_position.y,
+         clear_margin_board_position.z - printer_min_margin
+      ]) {
+         minkowski() {
+            cube([
+               0.01,
+               0.01,
+               -clear_margin_board_position.z + printer_min_margin * 2
+            ]);
+
+            alphanumeric_circuit_board(offset = printer_min_margin);
+         }
       }
    }
 }
@@ -346,20 +362,31 @@ module clear_margin_board_thumb_key_switch_hole() {
 }
 
 module clear_margin_board_thumb_circuit_saucer() {
-   translate([
-      thumb_placement_position.x,
-      thumb_placement_position.y,
-      clear_margin_board_position.z - printer_min_margin
-   ]) {
+   if (clear_margin_board_position.z > 0) {
       minkowski() {
          cube([
             0.01,
             0.01,
-            thumb_circuit_board_position.z + thumb_circuit_board_size.z
-               - clear_margin_board_position.z + printer_min_margin * 2
+            clear_margin_board_position.z + printer_min_margin * 2
          ]);
 
          thumb_circuit_board(offset = printer_min_margin);
+      }
+   } else {
+      translate([
+         thumb_placement_position.x,
+         thumb_placement_position.y,
+         clear_margin_board_position.z - printer_min_margin
+      ]) {
+         minkowski() {
+            cube([
+               0.01,
+               0.01,
+               -clear_margin_board_position.z + printer_min_margin * 2
+            ]);
+
+            thumb_circuit_board(offset = printer_min_margin);
+         }
       }
    }
 }
