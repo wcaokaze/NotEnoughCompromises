@@ -108,7 +108,7 @@ module clear_margin_board() {
 
          translate(alphanumeric_left_front_point) {
             cube(alphanumeric_right_back_point - alphanumeric_left_front_point
-               - [printer_min_margin, printer_min_margin, printer_min_margin]);
+               - [printer_min_margin, printer_min_margin, 0]);
          }
 
          thumb_left_front_point = [
@@ -135,10 +135,10 @@ module clear_margin_board() {
          ];
 
          translate(thumb_left_front_point
-            + [printer_min_margin, printer_min_margin, printer_min_margin]
+            + [printer_min_margin, printer_min_margin, 0]
          ) {
             cube(thumb_right_back_point - thumb_left_front_point
-               - [printer_min_margin, printer_min_margin, printer_min_margin]);
+               - [printer_min_margin, printer_min_margin, 0]);
          }
       }
 
