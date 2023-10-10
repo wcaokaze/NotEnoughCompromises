@@ -107,6 +107,7 @@ module clear_margin_board() {
             alphanumeric_placement_position.z
                + alphanumeric_case_inner_space_position.z
                + alphanumeric_case_inner_space_size.z
+               - printer_min_margin
          ];
 
          translate(alphanumeric_left_front_point) {
@@ -138,6 +139,7 @@ module clear_margin_board() {
             thumb_placement_position.z
                + thumb_case_inner_space_position.z
                + thumb_case_inner_space_size.z
+               - printer_min_margin
          ];
 
          translate(thumb_left_front_point

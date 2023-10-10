@@ -5,7 +5,9 @@ include <../KeySwitch.scad>
 include <Case.scad>
 
 alphanumeric_circuit_board_front_cutout_length = 2.0;
+alphanumeric_circuit_board_back_cutout_length  = 1.2;
 alphanumeric_circuit_board_left_cutout_length  = 1.2;
+alphanumeric_circuit_board_right_cutout_length = 1.2;
 
 // 各キースイッチの基板同士の間をつなぐ基板の幅
 alphanumeric_circuit_board_bridge_width = 5.0;
@@ -22,9 +24,11 @@ alphanumeric_circuit_board_position = [
 
 alphanumeric_circuit_board_size = [
    alphanumeric_case_inner_space_size.x - printer_min_margin * 2
-      - alphanumeric_circuit_board_left_cutout_length,
+      - alphanumeric_circuit_board_left_cutout_length
+      - alphanumeric_circuit_board_right_cutout_length,
    alphanumeric_case_inner_space_size.y - printer_min_margin * 2
-      - alphanumeric_circuit_board_front_cutout_length,
+      - alphanumeric_circuit_board_front_cutout_length
+      - alphanumeric_circuit_board_back_cutout_length,
    circuit_board_thickness
 ];
 

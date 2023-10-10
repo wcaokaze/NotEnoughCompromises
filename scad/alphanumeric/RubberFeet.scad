@@ -3,54 +3,39 @@ include <../KeySwitch.scad>
 include <../PrinterSpec.scad>
 include <../RubberFeet.scad>
 include <Case.scad>
+include <CircuitBoard.scad>
 
-alphanumeric_rubber_feet_base_size = [
-   alphanumeric_case_inner_space_size.x - 2.4,
-   alphanumeric_case_inner_space_size.y - 2.4,
-   rubber_feet_base_thickness
+alphanumeric_rubber_feet_size = [
+   alphanumeric_circuit_board_size.x,
+   alphanumeric_circuit_board_size.y,
+   alphanumeric_case_inner_space_position.z + alphanumeric_case_inner_space_size.z
+      - alphanumeric_circuit_board_position.z + rubber_feet_thickness
+      - printer_min_margin
 ];
 
-alphanumeric_rubber_feet_base_position = [
-   alphanumeric_case_inner_space_position.x + 1.2,
-   alphanumeric_case_inner_space_position.y + 1.2,
-   alphanumeric_case_inner_space_size.z - alphanumeric_rubber_feet_base_size.z
+alphanumeric_rubber_feet_position = [
+   alphanumeric_circuit_board_position.x,
+   alphanumeric_circuit_board_position.y,
+   alphanumeric_circuit_board_position.z - rubber_feet_thickness
 ];
 
 module alphanumeric_rubber_feet() {
    difference() {
-      translate(alphanumeric_rubber_feet_base_position) {
-         cube(alphanumeric_rubber_feet_base_size);
+      translate(alphanumeric_rubber_feet_position) {
+         cube(alphanumeric_rubber_feet_size);
       }
+      alphanumeric_rubber_circuit_saucer();
+   }
+}
 
-      for (x = [0 : alphanumeric_key_count.x - 1],
-           y = [0 : alphanumeric_key_count.y - 1])
-      {
-         translate(alphanumeric_case_key_position(x, y)) {
-            translate([
-               key_switch_hock_position.x - printer_min_margin,
-               key_switch_hock_position.y - printer_min_margin,
-               alphanumeric_case_inner_space_size.z - printer_min_margin
-                  - key_switch_hock_size.z
-            ]) {
-               cube([
-                  key_switch_hock_size.x + printer_min_margin * 2,
-                  key_switch_hock_size.y + printer_min_margin * 2,
-                  key_switch_hock_size.z + printer_min_margin * 2
-               ]);
-            }
+module alphanumeric_rubber_circuit_saucer() {
+   minkowski() {
+      cube([
+         0.01,
+         0.01,
+         alphanumeric_rubber_feet_size.z
+      ]);
 
-            translate([
-               key_switch_bottom_housing_position.x - printer_min_margin,
-               key_switch_bottom_housing_position.y - printer_min_margin,
-               -printer_min_margin
-            ]) {
-               cube([
-                  key_switch_bottom_housing_size.x + printer_min_margin * 2,
-                  key_switch_bottom_housing_size.y + printer_min_margin * 2,
-                  alphanumeric_case_inner_space_size.z + printer_min_margin * 2
-               ]);
-            }
-         }
-      }
+      alphanumeric_circuit_board(offset = printer_min_margin);
    }
 }

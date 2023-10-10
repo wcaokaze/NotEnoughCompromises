@@ -5,6 +5,7 @@ include <../KeySwitch.scad>
 include <Case.scad>
 
 thumb_circuit_board_front_cutout_length = 2.0;
+thumb_circuit_board_back_cutout_length  = 1.2;
 thumb_circuit_board_left_cutout_length  = 1.2;
 thumb_circuit_board_right_cutout_length = 1.2;
 
@@ -25,7 +26,7 @@ thumb_circuit_board_size = [
    thumb_case_inner_space_size.x - printer_min_margin * 2
       - thumb_circuit_board_left_cutout_length - thumb_circuit_board_right_cutout_length,
    thumb_case_inner_space_size.y - printer_min_margin * 2
-      - thumb_circuit_board_front_cutout_length,
+      - thumb_circuit_board_front_cutout_length - thumb_circuit_board_back_cutout_length,
    circuit_board_thickness
 ];
 
