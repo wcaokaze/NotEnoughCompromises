@@ -8,12 +8,14 @@ include <thumb/Case.scad>
 include <thumb/CircuitBoard.scad>
 include <thumb/RubberFeet.scad>
 
-thumb_case();
-thumb_circuit_board();
-thumb_rubber_feet();
+rotate(tilt_angle, [1, 0, 0]) {
+   thumb_case();
+   thumb_circuit_board();
+   thumb_rubber_feet();
 
-alphanumeric_case();
-alphanumeric_circuit_board();
-alphanumeric_rubber_feet();
+   alphanumeric_case();
+   alphanumeric_circuit_board();
+   alphanumeric_rubber_feet();
 
-clear_margin_board();
+   clear_margin_board();
+}
