@@ -2,6 +2,7 @@
 include <../KeySwitch.scad>
 include <../PrinterSpec.scad>
 include <../RubberFeet.scad>
+include <../geometry/rotate.scad>
 include <Case.scad>
 include <CircuitBoard.scad>
 
@@ -42,6 +43,7 @@ module alphanumeric_rubber_feet() {
       }
 
       alphanumeric_rubber_circuit_saucer();
+      microcontroller_saucer();
    }
 }
 
@@ -54,5 +56,32 @@ module alphanumeric_rubber_circuit_saucer() {
       ]);
 
       alphanumeric_circuit_board(offset = printer_min_margin);
+   }
+}
+
+module microcontroller_saucer() {
+   front_position = [
+      microcontroller_position.x - printer_min_margin,
+      microcontroller_position.y - printer_min_margin,
+      alphanumeric_placement_position.z
+         + alphanumeric_rubber_feet_position.z - printer_min_margin
+   ];
+
+   back_position = alphanumeric_placement_position
+      + alphanumeric_rubber_feet_position + alphanumeric_rubber_feet_size
+      + [printer_min_margin, printer_min_margin, printer_min_margin];
+
+   z = rotate(
+      [back_position.x, back_position.y, front_position.z],
+      [1, 0, 0],
+      -tilt_angle
+   ).z;
+
+   translate([front_position.x, front_position.y, z]) {
+      cube([
+         back_position.x - front_position.x,
+         back_position.y - front_position.y,
+         back_position.z - z
+      ]);
    }
 }
