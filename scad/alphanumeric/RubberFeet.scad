@@ -6,9 +6,18 @@ include <../geometry/rotate.scad>
 include <Case.scad>
 include <CircuitBoard.scad>
 
+alphanumeric_rubber_feet_front_cutout_length = 1.5;
+alphanumeric_rubber_feet_back_cutout_length  = 0.0;
+alphanumeric_rubber_feet_left_cutout_length  = 3.0;
+alphanumeric_rubber_feet_right_cutout_length = 3.0;
+
 alphanumeric_rubber_feet_sheet_size = [
-   alphanumeric_circuit_board_size.x,
-   alphanumeric_circuit_board_size.y,
+   alphanumeric_circuit_board_size.x
+      - alphanumeric_rubber_feet_left_cutout_length
+      - alphanumeric_rubber_feet_right_cutout_length,
+   alphanumeric_circuit_board_size.y
+      - alphanumeric_rubber_feet_front_cutout_length
+      - alphanumeric_rubber_feet_back_cutout_length,
    rubber_feet_thickness
 ];
 
@@ -23,8 +32,8 @@ alphanumeric_rubber_feet_size = [
 ];
 
 alphanumeric_rubber_feet_position = [
-   alphanumeric_circuit_board_position.x,
-   alphanumeric_circuit_board_position.y,
+   alphanumeric_circuit_board_position.x + alphanumeric_rubber_feet_left_cutout_length,
+   alphanumeric_circuit_board_position.y + alphanumeric_rubber_feet_front_cutout_length,
    alphanumeric_circuit_board_position.z - rubber_feet_thickness
 ];
 
