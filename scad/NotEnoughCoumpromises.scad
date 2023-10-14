@@ -17,5 +17,7 @@ rotate(tilt_angle, [1, 0, 0]) {
    alphanumeric_circuit_board();
    alphanumeric_rubber_feet();
 
-   clear_margin_board();
+   color("#ffffaa33") {
+      clear_margin_board();
+   }
 }
