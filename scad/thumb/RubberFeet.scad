@@ -21,7 +21,7 @@ thumb_rubber_feet_position = [
 
 module thumb_rubber_feet() {
    difference() {
-      translate(thumb_rubber_feet_position) {
+      translate(thumb_placement_position + thumb_rubber_feet_position) {
          cube(thumb_rubber_feet_size);
       }
       thumb_rubber_circuit_saucer();

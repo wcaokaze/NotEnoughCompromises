@@ -31,32 +31,34 @@ thumb_circuit_board_size = [
 ];
 
 module thumb_circuit_board(offset = 0.0) {
-   intersection() {
-      translate(thumb_circuit_board_position - [offset, offset, 0]) {
-         cube(thumb_circuit_board_size + [offset * 2, offset * 2, 0]);
-      }
+   translate(thumb_placement_position) {
+      intersection() {
+         translate(thumb_circuit_board_position - [offset, offset, 0]) {
+            cube(thumb_circuit_board_size + [offset * 2, offset * 2, 0]);
+         }
 
-      for (x = [0 : thumb_key_count.x - 1],
-           y = [0 : thumb_key_count.y - 1])
-      {
-         translate(thumb_case_key_position(x, y)) {
-            translate([
-               key_switch_bottom_housing_position.x - printer_min_margin - offset,
-               key_switch_bottom_housing_position.y - printer_min_margin - offset,
-               thumb_circuit_board_position.z - printer_min_margin
-            ]) {
-               cube([
-                  key_switch_bottom_housing_size.x + printer_min_margin * 2 + offset * 2,
-                  key_switch_bottom_housing_size.y + printer_min_margin * 2 + offset * 2,
-                  thumb_circuit_board_size.z + printer_min_margin * 2
-               ]);
-            }
+         for (x = [0 : thumb_key_count.x - 1],
+              y = [0 : thumb_key_count.y - 1])
+         {
+            translate(thumb_case_key_position(x, y)) {
+               translate([
+                  key_switch_bottom_housing_position.x - printer_min_margin - offset,
+                  key_switch_bottom_housing_position.y - printer_min_margin - offset,
+                  thumb_circuit_board_position.z - printer_min_margin
+               ]) {
+                  cube([
+                     key_switch_bottom_housing_size.x + printer_min_margin * 2 + offset * 2,
+                     key_switch_bottom_housing_size.y + printer_min_margin * 2 + offset * 2,
+                     thumb_circuit_board_size.z + printer_min_margin * 2
+                  ]);
+               }
 
-            if (x >= 1) {
-               thumb_circuit_board_horizontal_bridge(offset);
-            }
-            if (y >= 1) {
-               thumb_circuit_board_vertical_bridge(offset);
+               if (x >= 1) {
+                  thumb_circuit_board_horizontal_bridge(offset);
+               }
+               if (y >= 1) {
+                  thumb_circuit_board_vertical_bridge(offset);
+               }
             }
          }
       }

@@ -198,11 +198,7 @@ module clear_margin_board_alphanumeric_circuit_saucer() {
          alphanumeric_circuit_board(offset = printer_min_margin);
       }
    } else {
-      translate([
-         alphanumeric_placement_position.x,
-         alphanumeric_placement_position.y,
-         clear_margin_board_position.z - printer_min_margin
-      ]) {
+      translate([0, 0, clear_margin_board_position.z - printer_min_margin]) {
          minkowski() {
             cube([
                0.01,
@@ -375,11 +371,7 @@ module clear_margin_board_thumb_circuit_saucer() {
          thumb_circuit_board(offset = printer_min_margin);
       }
    } else {
-      translate([
-         thumb_placement_position.x,
-         thumb_placement_position.y,
-         clear_margin_board_position.z - printer_min_margin
-      ]) {
+      translate([0, 0, clear_margin_board_position.z - printer_min_margin]) {
          minkowski() {
             cube([
                0.01,

@@ -47,7 +47,11 @@ alphanumeric_case_inner_space_size = alphanumeric_case_size - [
 
 module alphanumeric_case(printer_friendly_position = false) {
    if (printer_friendly_position) {
-      translate([0, alphanumeric_case_size.y, alphanumeric_case_size.z]) {
+      translate([
+         -alphanumeric_placement_position.x,
+         alphanumeric_placement_position.y + alphanumeric_case_size.y,
+         alphanumeric_case_size.z
+      ]) {
          rotate(180, [1, 0, 0]) {
             alphanumeric_case_impl();
          }
@@ -58,26 +62,31 @@ module alphanumeric_case(printer_friendly_position = false) {
 }
 
 module alphanumeric_case_impl() {
-   difference() {
-      cube(alphanumeric_case_size);
+   translate(alphanumeric_placement_position) {
+      difference() {
+         cube(alphanumeric_case_size);
 
-      translate(alphanumeric_case_inner_space_position) {
-         cube(alphanumeric_case_inner_space_size);
-      }
+         translate(alphanumeric_case_inner_space_position
+            + [0, 0, -printer_min_margin])
+         {
+            cube(alphanumeric_case_inner_space_size
+               + [0, 0, -printer_min_margin * 2]);
+         }
 
-      for (x = [0 : alphanumeric_key_count.x - 1],
-           y = [0 : alphanumeric_key_count.y - 1])
-      {
-         translate([
-            alphanumeric_case_key_position(x, y).x + key_switch_top_housing_position.x,
-            alphanumeric_case_key_position(x, y).y + key_switch_top_housing_position.y,
-            0
-         ]) {
-            cube([
-               key_switch_top_housing_size.x,
-               key_switch_top_housing_size.y,
-               alphanumeric_case_size.z
-            ]);
+         for (x = [0 : alphanumeric_key_count.x - 1],
+              y = [0 : alphanumeric_key_count.y - 1])
+         {
+            translate([
+               alphanumeric_case_key_position(x, y).x + key_switch_top_housing_position.x,
+               alphanumeric_case_key_position(x, y).y + key_switch_top_housing_position.y,
+               -printer_min_margin
+            ]) {
+               cube([
+                  key_switch_top_housing_size.x,
+                  key_switch_top_housing_size.y,
+                  alphanumeric_case_size.z + printer_min_margin * 2
+               ]);
+            }
          }
       }
    }

@@ -46,7 +46,11 @@ thumb_case_inner_space_size = [
 
 module thumb_case(printer_friendly_position = false) {
    if (printer_friendly_position) {
-      translate([0, thumb_case_size.y, thumb_case_size.z]) {
+      translate([
+         -thumb_placement_position.x,
+         thumb_placement_position.y + thumb_case_size.y,
+         thumb_case_size.z
+      ]) {
          rotate(180, [1, 0, 0]) {
             thumb_case_impl();
          }
@@ -57,26 +61,31 @@ module thumb_case(printer_friendly_position = false) {
 }
 
 module thumb_case_impl() {
-   difference() {
-      cube(thumb_case_size);
+   translate(thumb_placement_position) {
+      difference() {
+         cube(thumb_case_size);
 
-      translate(thumb_case_inner_space_position) {
-         cube(thumb_case_inner_space_size);
-      }
+         translate(thumb_case_inner_space_position
+            + [0, 0, -printer_min_margin])
+         {
+            cube(thumb_case_inner_space_size
+               + [0, 0, -printer_min_margin * 2]);
+         }
 
-      for (x = [0 : thumb_key_count.x - 1],
-           y = [0 : thumb_key_count.y - 1])
-      {
-         translate([
-            thumb_case_key_position(x, y).x + key_switch_top_housing_position.x,
-            thumb_case_key_position(x, y).y + key_switch_top_housing_position.y,
-            0
-         ]) {
-            cube([
-               key_switch_top_housing_size.x,
-               key_switch_top_housing_size.y,
-               thumb_case_size.z
-            ]);
+         for (x = [0 : thumb_key_count.x - 1],
+              y = [0 : thumb_key_count.y - 1])
+         {
+            translate([
+               thumb_case_key_position(x, y).x + key_switch_top_housing_position.x,
+               thumb_case_key_position(x, y).y + key_switch_top_housing_position.y,
+               -printer_min_margin
+            ]) {
+               cube([
+                  key_switch_top_housing_size.x,
+                  key_switch_top_housing_size.y,
+                  thumb_case_size.z + printer_min_margin * 2
+               ]);
+            }
          }
       }
    }

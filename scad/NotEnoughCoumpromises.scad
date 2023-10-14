@@ -8,16 +8,12 @@ include <thumb/Case.scad>
 include <thumb/CircuitBoard.scad>
 include <thumb/RubberFeet.scad>
 
-translate(thumb_placement_position) {
-   thumb_case();
-   thumb_circuit_board();
-   thumb_rubber_feet();
-}
+thumb_case();
+thumb_circuit_board();
+thumb_rubber_feet();
 
-translate(alphanumeric_placement_position) {
-   alphanumeric_case();
-   alphanumeric_circuit_board();
-   alphanumeric_rubber_feet();
-}
+alphanumeric_case();
+alphanumeric_circuit_board();
+alphanumeric_rubber_feet();
 
 clear_margin_board();

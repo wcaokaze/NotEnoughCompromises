@@ -21,7 +21,7 @@ alphanumeric_rubber_feet_position = [
 
 module alphanumeric_rubber_feet() {
    difference() {
-      translate(alphanumeric_rubber_feet_position) {
+      translate(alphanumeric_placement_position + alphanumeric_rubber_feet_position) {
          cube(alphanumeric_rubber_feet_size);
       }
       alphanumeric_rubber_circuit_saucer();
