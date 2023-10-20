@@ -51,12 +51,13 @@ module alphanumeric_rubber_feet() {
          }
       }
 
-      alphanumeric_rubber_circuit_saucer();
+      alphanumeric_rubber_feet_circuit_saucer();
+      alphanumeric_rubber_feet_key_switch_hole();
       microcontroller_saucer();
    }
 }
 
-module alphanumeric_rubber_circuit_saucer() {
+module alphanumeric_rubber_feet_circuit_saucer() {
    union() {
       minkowski() {
          cube([
@@ -117,5 +118,38 @@ module microcontroller_saucer() {
          back_position.y - front_position.y,
          back_position.z - z
       ]);
+   }
+}
+
+module alphanumeric_rubber_feet_key_switch_hole() {
+   translate(alphanumeric_placement_position
+      + [0, 0, alphanumeric_circuit_board_position.z + alphanumeric_circuit_board_size.z])
+   {
+      for (x = [0 : alphanumeric_key_count.x - 1],
+           y = [0 : alphanumeric_key_count.y - 1])
+      {
+         translate(alphanumeric_case_key_position(x, y)) {
+            translate(key_switch_bottom_housing_position
+               - [printer_min_margin, printer_min_margin, printer_min_margin])
+            {
+               cube(key_switch_bottom_housing_size
+                  + [printer_min_margin * 2, printer_min_margin * 2, printer_min_margin * 2]);
+            }
+
+            translate(key_switch_hock_position
+               - [printer_min_margin, printer_min_margin, printer_min_margin])
+            {
+               cube(key_switch_hock_size
+                  + [printer_min_margin * 2, printer_min_margin * 2, printer_min_margin * 2]);
+            }
+
+            translate(key_switch_top_housing_position
+               - [printer_min_margin, printer_min_margin, printer_min_margin])
+            {
+               cube(key_switch_top_housing_size
+                  + [printer_min_margin * 2, printer_min_margin * 2, printer_min_margin * 2]);
+            }
+         }
+      }
    }
 }
