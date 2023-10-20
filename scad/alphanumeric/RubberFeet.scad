@@ -57,14 +57,39 @@ module alphanumeric_rubber_feet() {
 }
 
 module alphanumeric_rubber_circuit_saucer() {
-   minkowski() {
-      cube([
-         0.01,
-         0.01,
-         alphanumeric_rubber_feet_size.z
-      ]);
+   union() {
+      minkowski() {
+         cube([
+            0.01,
+            0.01,
+            alphanumeric_rubber_feet_size.z
+         ]);
 
-      alphanumeric_circuit_board(offset = printer_min_margin);
+         alphanumeric_circuit_board(offset = printer_min_margin);
+      }
+
+      all_indices = [
+         for (x = [0 : alphanumeric_key_count.x],
+              y = [0 : alphanumeric_key_count.y]) [x, y]
+      ];
+
+      peg_saucer_indices = [
+         for (idx = all_indices)
+         if (search([idx], alphanumeric_rubber_peg_indices)[0] == [])
+         idx
+      ];
+
+      for (index = peg_saucer_indices) {
+         key_position = alphanumeric_case_key_position(index.x, index.y);
+
+         translate([
+            alphanumeric_placement_position.x + key_position.x - key_pitch.x / 2,
+            alphanumeric_placement_position.y + key_position.y - key_pitch.y / 2,
+            alphanumeric_circuit_board_position.z
+         ]) {
+            cube([key_pitch.x, key_pitch.y, alphanumeric_rubber_feet_size.z]);
+         }
+      }
    }
 }
 
