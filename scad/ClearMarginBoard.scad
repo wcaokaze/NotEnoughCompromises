@@ -1,13 +1,10 @@
 
 include <Case.scad>
 include <Keyboard.scad>
-include <RubberFeet.scad>
 include <alphanumeric/Case.scad>
 include <alphanumeric/CircuitBoard.scad>
-include <alphanumeric/RubberFeet.scad>
 include <thumb/Case.scad>
 include <thumb/CircuitBoard.scad>
-include <thumb/RubberFeet.scad>
 
 // alphanumeric_case, thumb_caseが食い込む部分の厚さ
 clear_margin_board_top_side_thickness = max(case_thickness - 2.0, 0.0);
@@ -144,11 +141,9 @@ module clear_margin_board() {
       }
 
       clear_margin_board_alphanumeric_case_saucer();
-      //clear_margin_board_alphanumeric_rubber_feet_saucer();
       clear_margin_board_alphanumeric_circuit_saucer();
       clear_margin_board_alphanumeric_key_switch_hole();
       clear_margin_board_thumb_case_saucer();
-      //clear_margin_board_thumb_rubber_feet_saucer();
       clear_margin_board_thumb_circuit_saucer();
       clear_margin_board_thumb_key_switch_hole();
    }
@@ -166,16 +161,6 @@ module clear_margin_board_alphanumeric_case_saucer() {
                + [-printer_min_margin * 2, -printer_min_margin * 2, printer_min_margin]);
          }
       }
-   }
-}
-
-module clear_margin_board_alphanumeric_rubber_feet_saucer() {
-   translate([
-      alphanumeric_placement_position.x,
-      alphanumeric_placement_position.y,
-      alphanumeric_rubber_feet_base_position.z
-   ]) {
-      cube(alphanumeric_case_size);
    }
 }
 
@@ -333,16 +318,6 @@ module clear_margin_board_thumb_case_saucer() {
                + [-printer_min_margin * 2, -printer_min_margin * 2, printer_min_margin]);
          }
       }
-   }
-}
-
-module clear_margin_board_thumb_rubber_feet_saucer() {
-   translate([
-      thumb_placement_position.x,
-      thumb_placement_position.y,
-      thumb_rubber_feet_base_position.z
-   ]) {
-      cube(thumb_case_size);
    }
 }
 

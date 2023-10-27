@@ -7,7 +7,7 @@ include <Case.scad>
 include <CircuitBoard.scad>
 
 alphanumeric_rubber_feet_front_cutout_length = 1.5;
-alphanumeric_rubber_feet_back_cutout_length  = 0.0;
+alphanumeric_rubber_feet_back_cutout_length  = 0.5;
 alphanumeric_rubber_feet_left_cutout_length  = 3.0;
 alphanumeric_rubber_feet_right_cutout_length = 3.0;
 
@@ -53,6 +53,7 @@ module alphanumeric_rubber_feet() {
 
       alphanumeric_rubber_feet_circuit_saucer();
       alphanumeric_rubber_feet_key_switch_hole();
+      alphanumeric_rubber_feet_clear_margin_board_hole();
       microcontroller_saucer();
    }
 }
@@ -148,6 +149,72 @@ module alphanumeric_rubber_feet_key_switch_hole() {
             {
                cube(key_switch_top_housing_size
                   + [printer_min_margin * 2, printer_min_margin * 2, printer_min_margin * 2]);
+            }
+         }
+      }
+   }
+}
+
+module alphanumeric_rubber_feet_clear_margin_board_hole() {
+   front = rotate(
+      [
+         0,
+         alphanumeric_placement_position.y + alphanumeric_rubber_feet_position.y,
+         alphanumeric_rubber_feet_position.z
+      ],
+      [1, 0, 0],
+      -tilt_angle
+   ).y;
+
+   bottom = rotate(
+      [
+         0,
+         alphanumeric_placement_position.y
+            + alphanumeric_rubber_feet_position.y
+            + alphanumeric_rubber_feet_size.y,
+         alphanumeric_rubber_feet_position.z
+      ],
+      [1, 0, 0],
+      -tilt_angle
+   ).z;
+
+   back = alphanumeric_placement_position.y + alphanumeric_rubber_feet_position.y + alphanumeric_rubber_feet_size.y;
+   top  = alphanumeric_placement_position.z + alphanumeric_rubber_feet_position.z + alphanumeric_rubber_feet_size.z;
+
+   difference() {
+      intersection() {
+         translate([
+            alphanumeric_placement_position.x + alphanumeric_rubber_feet_position.x
+               - printer_min_margin,
+            front - printer_min_margin,
+            bottom - printer_min_margin
+         ]) {
+            cube([
+               alphanumeric_rubber_feet_size.x + printer_min_margin * 2,
+               back - front + printer_min_margin * 2,
+               top - bottom + printer_min_margin * 2
+            ]);
+         }
+
+         for (index = clear_margin_board_alphanumeric_peg_indices) {
+            key_position = alphanumeric_case_key_position(index.x, index.y);
+
+            translate([
+               alphanumeric_placement_position.x + key_position.x - key_pitch.x / 2,
+               alphanumeric_placement_position.y + key_position.y - key_pitch.y / 2,
+               bottom - printer_min_margin * 2
+            ]) {
+               cube([key_pitch.x, key_pitch.y, top - bottom + printer_min_margin * 4]);
+            }
+         }
+      }
+
+      translate([0, 0, bottom - printer_min_margin * 2]) {
+         minkowski() {
+            cube([0.01, 0.01, top - bottom + printer_min_margin * 4]);
+
+            translate([0, 0, -alphanumeric_circuit_board_position.z]) {
+               alphanumeric_circuit_board(offset = - printer_min_margin);
             }
          }
       }
