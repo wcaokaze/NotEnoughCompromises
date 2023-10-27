@@ -37,6 +37,13 @@ alphanumeric_rubber_feet_position = [
    alphanumeric_circuit_board_position.z - rubber_feet_thickness
 ];
 
+function alphanumeric_rubber_feet_has_enough_thickness(point)
+   = rotate(
+      [point.x, point.y, thumb_rubber_feet_position.z],
+      [1, 0, 0],
+      -tilt_angle
+   ).z < point.z - 1.0;
+
 module alphanumeric_rubber_feet(printer_friendly_position = false) {
    if (printer_friendly_position) {
       p = alphanumeric_placement_position + alphanumeric_rubber_feet_position;
@@ -213,10 +220,17 @@ module alphanumeric_rubber_feet_clear_margin_board_hole() {
          for (index = clear_margin_board_alphanumeric_peg_indices) {
             key_position = alphanumeric_case_key_position(index.x, index.y);
 
-            translate([
+            p = [
                alphanumeric_placement_position.x + key_position.x - key_pitch.x / 2,
                alphanumeric_placement_position.y + key_position.y - key_pitch.y / 2,
-               bottom - printer_min_margin * 2
+               alphanumeric_circuit_board_position.z - 1.0
+            ];
+
+            translate([
+               p.x,
+               p.y,
+               alphanumeric_rubber_feet_has_enough_thickness(p)
+                  ? p.z : bottom - printer_min_margin * 2
             ]) {
                cube([key_pitch.x, key_pitch.y, top - bottom + printer_min_margin * 4]);
             }

@@ -35,6 +35,13 @@ thumb_rubber_feet_position = [
    thumb_circuit_board_position.z - rubber_feet_thickness
 ];
 
+function thumb_rubber_feet_has_enough_thickness(point)
+   = rotate(
+      [point.x, point.y, thumb_rubber_feet_position.z],
+      [1, 0, 0],
+      -tilt_angle
+   ).z < point.z - 1.0;
+
 module thumb_rubber_feet(printer_friendly_position = false) {
    if (printer_friendly_position) {
       p = thumb_placement_position + thumb_rubber_feet_position;
@@ -182,10 +189,17 @@ module thumb_rubber_feet_clear_margin_board_hole() {
          for (index = clear_margin_board_thumb_peg_indices) {
             key_position = thumb_case_key_position(index.x, index.y);
 
-            translate([
+            p =[
                thumb_placement_position.x + key_position.x - key_pitch.x / 2,
                thumb_placement_position.y + key_position.y - key_pitch.y / 2,
-               bottom - printer_min_margin * 2
+               thumb_circuit_board_position.z - 1.0
+            ];
+
+            translate([
+               p.x,
+               p.y,
+               thumb_rubber_feet_has_enough_thickness(p)
+                  ? p.z : bottom - printer_min_margin * 2
             ]) {
                cube([key_pitch.x, key_pitch.y, top - bottom + printer_min_margin * 4]);
             }
