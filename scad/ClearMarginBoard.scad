@@ -93,7 +93,21 @@ clear_margin_board_thumb_size = [
       + thumb_case_inner_space_size.z - clear_margin_board_thumb_position.z
 ];
 
-module clear_margin_board() {
+module clear_margin_board(printer_friendly_position = false) {
+   if (printer_friendly_position) {
+      translate(-[
+         min(clear_margin_board_position.x, clear_margin_board_alphanumeric_position.x, clear_margin_board_thumb_position.x),
+         min(clear_margin_board_position.y, clear_margin_board_alphanumeric_position.y, clear_margin_board_thumb_position.y),
+         min(clear_margin_board_position.z, clear_margin_board_alphanumeric_position.z, clear_margin_board_thumb_position.z)
+      ]) {
+         clear_margin_board_impl();
+      }
+   } else {
+      clear_margin_board_impl();
+   }
+}
+
+module clear_margin_board_impl() {
    difference() {
       union() {
          difference() {

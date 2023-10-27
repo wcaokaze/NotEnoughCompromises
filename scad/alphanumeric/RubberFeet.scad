@@ -37,7 +37,21 @@ alphanumeric_rubber_feet_position = [
    alphanumeric_circuit_board_position.z - rubber_feet_thickness
 ];
 
-module alphanumeric_rubber_feet() {
+module alphanumeric_rubber_feet(printer_friendly_position = false) {
+   if (printer_friendly_position) {
+      p = alphanumeric_placement_position + alphanumeric_rubber_feet_position;
+
+      rotate(tilt_angle, [1, 0, 0]) {
+         translate(-rotate(p, [1, 0, 0], -tilt_angle)) {
+            alphanumeric_rubber_feet_impl();
+         }
+      }
+   } else {
+      alphanumeric_rubber_feet_impl();
+   }
+}
+
+module alphanumeric_rubber_feet_impl() {
    difference() {
       hull() {
          translate(alphanumeric_placement_position + alphanumeric_rubber_feet_position) {

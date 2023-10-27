@@ -35,7 +35,21 @@ thumb_rubber_feet_position = [
    thumb_circuit_board_position.z - rubber_feet_thickness
 ];
 
-module thumb_rubber_feet() {
+module thumb_rubber_feet(printer_friendly_position = false) {
+   if (printer_friendly_position) {
+      p = thumb_placement_position + thumb_rubber_feet_position;
+
+      rotate(tilt_angle, [1, 0, 0]) {
+         translate(-rotate(p, [1, 0, 0], -tilt_angle)) {
+            thumb_rubber_feet_impl();
+         }
+      }
+   } else {
+      thumb_rubber_feet_impl();
+   }
+}
+
+module thumb_rubber_feet_impl() {
    difference() {
       hull() {
          translate(thumb_rubber_feet_position) {
