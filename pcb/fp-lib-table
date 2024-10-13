@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name "kbd")(type "KiCad")(uri "${KIPRJMOD}/lib/kbd/kicad-footprints/kbd.pretty")(options "")(descr ""))
+  (lib (name "not_enough_compromises")(type "KiCad")(uri "${KIPRJMOD}/lib/not_enough_compromises.pretty")(options "")(descr ""))
+)
